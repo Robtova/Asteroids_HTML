@@ -1,0 +1,159 @@
+html, body { 
+	height: 100%; 
+	width: 100%; 
+	margin: 0px; 
+	padding: 0px;
+}
+
+body {
+	background-color: #000000;
+}
+
+* {
+	font-family: Trebuchet MS, Verdana;
+	color: #FFFFFF;
+}
+
+#screen {
+	padding: 0px;
+	position: relative;
+	margin: auto;
+	top: 10px;
+	height: 450px;
+	width: 650px;
+	background-color: #000000;
+	overflow: hidden;
+	border: solid 2px #FFFFFF;
+	border-radius: 5px;
+}
+
+#dist {
+	position: absolute;
+	top: 5px;
+	left: 10px;
+}
+
+.background, .background2, .background3, .background4, .background5 {
+	position: absolute;
+	display: inline;
+	height: 450px;
+	width: 600px;
+	margin: 0px; 
+	padding: 0px;
+}
+
+.background2 {
+	left: 600px;
+}
+
+.background3 {
+	left: 1200px;
+}
+
+.background4 {
+	left: 1800px;
+}
+
+.background5 {
+	left: 2400px;
+}
+
+#health-cell {
+	position: absolute;
+	border: solid 1px #FFFFFF;
+	width: 300px;
+	height: 20px;
+	margin: 0px; 
+	padding: 0px;
+	top: 5px;
+	left: 175px;
+}
+
+#health-bar {
+	position: absolute;
+	background-color: #FF5555;
+	margin: 0px; 
+	padding: 0px;
+	top: 1px;
+	left: 1px;
+	width: 298px;
+	height: 18px;
+}
+
+#spaceship {
+	position: absolute;
+	width: 105px;
+	height: 42px;
+	margin: 0px; 
+	padding: 0px;
+	left: 20px;
+	top: 204px;
+}
+
+.bullet {
+	position: absolute;
+	width: 20px;
+	height: 2px;
+	left: 105px;
+	background-color: #22FF55;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#113533), to(#22FF55));
+    background-image: -webkit-linear-gradient(left, #113533, #22FF55); 
+    background-image:    -moz-linear-gradient(left, #113533, #22FF55);
+    background-image:     -ms-linear-gradient(left, #113533, #22FF55);
+    background-image:      -o-linear-gradient(left, #113533, #22FF55);
+	
+	border-top-left-radius: 100%;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 100%;
+}
+
+.asteroid {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	margin: 0px; 
+	padding: 0px;
+	left: 650px;
+	top: 20px;
+}
+
+@-webkit-keyframes spin-right {
+    100% {
+        -webkit-transform: rotate(360deg);
+           -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+             -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-right {
+    100% {
+        -webkit-transform: rotate(360deg);
+           -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+             -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin-left {
+    100% {
+        -webkit-transform: rotate(-360deg);
+           -moz-transform: rotate(-360deg);
+            -ms-transform: rotate(-360deg);
+             -o-transform: rotate(-360deg);
+                transform: rotate(-360deg);
+    }
+}
+
+@keyframes spin-left {
+    100% {
+        -webkit-transform: rotate(-360deg);
+           -moz-transform: rotate(-360deg);
+            -ms-transform: rotate(-360deg);
+             -o-transform: rotate(-360deg);
+                transform: rotate(-360deg);
+    }
+}
