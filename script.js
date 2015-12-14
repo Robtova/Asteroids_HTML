@@ -16,6 +16,10 @@ $(document).ready(function() {
 		return Math.floor(Math.random() * i);
 	}
 	
+	function radians(degrees) {
+		return degrees * Math.PI / 180;
+	};
+	
 	window.onunload = function() {
 		clearInterval();
 	};
@@ -90,6 +94,9 @@ $(document).ready(function() {
 		
 		if(random(Math.max(90 - (speed * 10), 10)) === 0) {
 			addEntity(new Asteroid());
+		}
+		if(random(Math.max(1800 - (speed * 200), 200)) === 0) {
+			addEntity(new Heart());
 		}
 		
 		if(k >= 1000 * speed) {
@@ -202,7 +209,7 @@ $(document).ready(function() {
 		};
 		
 		this.tick = function() {
-			this.img.animate({left: '-=' + (this.xa + speed) + 'px', top: '+=' + this.ya + 'px'}, 1);
+			this.img.animate({left: '-=' + (this.xa + speed) + 'px', top: '+=' + this.ya + 'px'}, 0);
 			this.position.left -= (this.xa + speed);
 			this.position.top += this.ya;
 			
@@ -229,6 +236,62 @@ $(document).ready(function() {
 	}
 	Asteroid.prototype = new Entity();
 	
+	function Heart() {
+		$('#health-cell').before("<img id='h" + num + "' class='heart' src='heart.png'></img>");
+		this.img = $('#h' + num);
+		this.img.css({"top": (20 + random(410 - 24)) + "px"});
+		this.position = this.img.position();
+		
+		this.width = 24;
+		this.height = 24;
+		
+		var opacity = 0;
+		var time = 0;
+		
+		this.removing = 0;
+
+		this.collided = function(entity) {
+			if(this.removing > 0) {
+				return false;
+			} else if(entity.getName() == "BULLET") {
+				entity.heal(-100);
+				this.removing = 1;
+			} else {
+				if(entity.getName() == "PLAYER") {
+					entity.heal(100);
+					this.removing = 1;
+				}
+			}
+		};
+		
+		this.tick = function() {
+			time++;
+			this.img.animate({left: '-=' + speed + 'px'}, 0);
+			this.position.left -= speed;
+			
+			if(this.removing > 0) {
+				this.removed = true;
+				this.img.remove();
+			}
+			
+			if(this.position.left + 24 < 0) {
+				this.removed = true;
+				this.img.remove();
+			}
+			
+			var sin = (Math.abs(Math.sin(radians(time * 2)) * 0.5) + 0.5) - opacity;
+			this.img.animate({opacity: '+=' + sin}, 1);
+			opacity = opacity + sin;
+			
+			this.checkCollision();
+		};
+		
+		this.getName = function() {
+			return "HEART";
+		};
+	}
+	Heart.prototype = new Entity();
+	
 	function Player() {
 		$('#health-cell').before("<img id='spaceship' src='spaceship0.png'></img>");
 		this.img = $('#spaceship');
@@ -242,15 +305,28 @@ $(document).ready(function() {
 		this.health = 300;
 		
 		var invi = 0;
+		
+		var rotation = 0;
 	
 		this.tick = function() {
 			if((keys[38] || keys[87]) && this.position.top - 3 > 20) {
 				this.img.animate({top: '-=3px'}, 1);
+				this.img.transition({rotate: '-=1deg'}, 1, 'linear');
+				rotation--;
 				this.position.top -= 3;
-			}
-			if((keys[40] || keys[83]) && this.position.top + 45 < 430) {
+			} else if((keys[40] || keys[83]) && this.position.top + 45 < 430) {
 				this.img.animate({top: '+=3px'}, 1);
+				this.img.transition({rotate: '+=1deg'}, 1, 'linear');
+				rotation++;
 				this.position.top += 3;
+			} else {
+				if(rotation < 0) {
+					this.img.transition({rotate: '+=1deg'}, 1, 'linear');
+					rotation++;
+				} else if(rotation > 0) {
+					this.img.transition({rotate: '-=1deg'}, 1, 'linear');
+					rotation--;
+				}
 			}
 			
 			if(this.cool_down > 0) {
@@ -313,7 +389,7 @@ $(document).ready(function() {
 		this.xa = 4;
 
 		this.tick = function() {
-			this.img.animate({left: '+=' + (this.xa + speed) + 'px'}, 1);
+			this.img.animate({left: '+=' + (this.xa + speed) + 'px'}, 0);
 			this.position.left += (this.xa + speed);
 			
 			if(this.position.left > 650) {
